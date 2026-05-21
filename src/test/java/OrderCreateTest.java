@@ -73,9 +73,9 @@ public class OrderCreateTest {
 
             response.then()
                     .statusCode(SC_CREATED)
-                    .body("track", notNullValue()); // Правильный синтаксис для Hamcrest
+                    .body("track", notNullValue());
 
-            track = response.jsonPath().getInt("track"); // Исправлен синтаксис вызова jsonPath
+            track = response.jsonPath().getInt("track");
 
             if (track <= 0) { // int не может быть null, проверяем только на <= 0
                 throw new AssertionError("Получен некорректный track: " + track);

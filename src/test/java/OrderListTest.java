@@ -15,6 +15,7 @@ public class OrderListTest {
 
     @Before
     public void setUp() {
+
         RestAssured.baseURI = Api.BASE_URL;
     }
 

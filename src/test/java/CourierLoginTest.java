@@ -55,11 +55,11 @@ public class CourierLoginTest {
 
     @Test
     @DisplayName("Ошибка авторизации без пароля")
-    @Description("Авторизация без пароля возвращает 504")
+    @Description("Авторизация без пароля возвращает 400")
     public void shouldReturnErrorWhenPasswordIsMissing() {
         Response response = courierAuthorizationTest.loginCourierWithoutPassword(courier.getLogin());
         response.then()
-                .statusCode(SC_GATEWAY_TIMEOUT);
+                .statusCode(SC_BAD_REQUEST);
     }
 
     @Test

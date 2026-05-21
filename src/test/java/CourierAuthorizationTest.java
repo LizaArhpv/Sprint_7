@@ -2,6 +2,7 @@ import io.qameta.allure.Step;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import java.util.HashMap;
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
@@ -22,7 +23,7 @@ public class CourierAuthorizationTest {
     }
 
     @Step("Авторизоваться курьером")
-    public Response loginCourier(CourierAuthorization credentials) { // ИЗМЕНЕНО: теперь принимает CourierAuthorization
+    public Response loginCourier(CourierAuthorization credentials) {
         return given()
                 .filter(new AllureRestAssured())
                 .header(Api.CONTENT_TYPE, Api.APPLICATION_JSON)
@@ -32,19 +33,25 @@ public class CourierAuthorizationTest {
 
     @Step("Авторизоваться курьером без логина")
     public Response loginCourierWithoutLogin(String password) {
+        Map<String, String> body = new HashMap<>();
+        body.put("password", password);
+
         return given()
                 .filter(new AllureRestAssured())
                 .header(Api.CONTENT_TYPE, Api.APPLICATION_JSON)
-                .body(Map.of("password", password))
+                .body(body)
                 .post(Api.COURIER_LOGIN_PATH);
     }
 
     @Step("Авторизоваться курьером без пароля")
     public Response loginCourierWithoutPassword(String login) {
+        Map<String, String> body = new HashMap<>();
+        body.put("login", login);
+
         return given()
                 .filter(new AllureRestAssured())
                 .header(Api.CONTENT_TYPE, Api.APPLICATION_JSON)
-                .body(Map.of("login", login))
+                .body(body)
                 .post(Api.COURIER_LOGIN_PATH);
     }
 
@@ -54,11 +61,5 @@ public class CourierAuthorizationTest {
                 .filter(new AllureRestAssured())
                 .delete(Api.COURIER_PATH + "/" + courierId);
     }
-
-    @Step("Удалить курьера без id")
-    public Response deleteCourierWithoutId() {
-        return given()
-                .filter(new AllureRestAssured())
-                .delete(Api.COURIER_PATH);
-    }
 }
+
